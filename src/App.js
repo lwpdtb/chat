@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react'
 import {BrowserRouter as Router,Route,Link,Redirect,withRouter,Switch,} from 'react-router-dom'//导入的方式跟之前有点变化
 import chat from './component/chat'
-const socket = require('socket.io-client')('http://localhost:4000');
 
 
-socket.emit('connection');
+// socket.emit('connection');
 
 
 const One = () => (
@@ -20,6 +19,8 @@ const Two = () => (
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
         <h2>我是第二页</h2>
     </div>
@@ -38,7 +39,7 @@ const List = ({ match }) => (
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
-<li><Link to="/chat">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
 
 </ul>
         <h2>我是一个列表</h2>
@@ -133,6 +134,8 @@ const Public = () =>
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
 const Protected = () => <div>
 <ul>
@@ -140,6 +143,8 @@ const Protected = () => <div>
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
 <h3>Protected</h3>
 </div>

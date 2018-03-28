@@ -24,7 +24,7 @@ class Chatlist extends Component {//左侧组件
 
     render() {
         let dom=this.state.data.map((n,i)=>{
-            return <li>{n}</li>
+            return <li key={i}>{n.name}:{n.message}</li>
         })
         return (
             dom

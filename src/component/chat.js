@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import Chatlist from './chatlist'
 import './chat.css';
 
+const socket = require('socket.io-client')('http://localhost:4000');
+
+
 
 // var FADE_TIME = 150; // ms
 //     var TYPING_TIMER_LENGTH = 400; // ms
@@ -41,22 +44,7 @@ import './chat.css';
   
 //    
   
-//     // Sends a chat message
-//     function sendMessage () {
-//       var message = $inputMessage.val();
-//       // Prevent markup from being injected into the message
-//       message = cleanInput(message);
-//       // if there is a non-empty message and a socket connection
-//       if (message && connected) {
-//         $inputMessage.val('');
-//         addChatMessage({
-//           username: username,
-//           message: message
-//         });
-//         // tell server to execute 'new message' and send along one parameter
-//         socket.emit('new message', message);
-//       }
-//     }
+
   
 //     // Log a message
 //     function log (message, options) {
@@ -287,6 +275,7 @@ class Chat extends Component {//左侧组件
     // }
 
 
+
     handleKeyDown(event){
         if (event.which === 13) {
           console.log(this.state.nameinput)
@@ -304,10 +293,9 @@ class Chat extends Component {//左侧组件
           // sendMessage();
           //     socket.emit('stop typing');
           //     typing = false;
-          let chatlist=this.state.chatlist
-          chatlist.push(this.state.chatinput)
+          
+          socket.emit('new message', {name:this.state.nameinput,message:this.state.chatinput})
           this.setState({
-            chatlist:chatlist,
             chatinput:''
           })
       }
@@ -336,7 +324,22 @@ class Chat extends Component {//左侧组件
       var script = document.createElement("script");
       script.id = "jsonp";
       script.src = 'https://code.jquery.com/jquery-1.10.2.min.js';
-      document.body.appendChild(script);      
+      document.body.appendChild(script);    
+      
+      // socket.on('login', (data) => {
+      //       console.log(data)
+      // });
+      // socket.on('add user', (data) => {
+      //       console.log(data)
+      // });
+      socket.on('new message', (data) => {
+        console.log(data)
+        let chatlist=this.state.chatlist
+        chatlist.push(data)
+        this.setState({
+          chatlist:chatlist,
+        })
+      });
    }
 
 
