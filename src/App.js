@@ -1,5 +1,10 @@
 import React, { PropTypes } from 'react'
 import {BrowserRouter as Router,Route,Link,Redirect,withRouter,Switch,} from 'react-router-dom'//导入的方式跟之前有点变化
+import chat from './component/chat'
+
+
+// socket.emit('connection');
+
 
 const One = () => (
     <div>
@@ -7,13 +12,15 @@ const One = () => (
     </div>
 )
 
-const Two = () => (
+const Two = () => ( 
     <div>
     <ul>
 <li><Link to="/public">Public Page</Link></li>
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
         <h2>我是第二页</h2>
     </div>
@@ -32,6 +39,8 @@ const List = ({ match }) => (
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
         <h2>我是一个列表</h2>
         <ul>
@@ -69,6 +78,8 @@ const AuthExample = () => (
       <PrivateRoute path="/two" component={Two}/>
       <PrivateRoute path="/Lists" component={List}/>
       <PrivateRoute path="/protected" component={Protected}/>
+      <PrivateRoute path="/chat" component={chat}/>
+      
       
     </div>
     
@@ -123,6 +134,8 @@ const Public = () =>
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
 const Protected = () => <div>
 <ul>
@@ -130,6 +143,8 @@ const Protected = () => <div>
 <li><Link to="/protected">Protected Page</Link></li>
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
+<li><Link to="/chat">点我</Link></li>
+
 </ul>
 <h3>Protected</h3>
 </div>
