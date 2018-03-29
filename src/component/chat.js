@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+﻿import React, {Component} from 'react';
 import Chatlist from './chatlist'
 import './chat.css';
+import io from 'socket.io-client';
+const socket=io('http://:4000'); 
 
-const socket = require('socket.io-client')('http://localhost:4000');
 
 
 
@@ -255,6 +256,7 @@ class Chat extends Component {//左侧组件
         this.chatinput=this.chatinput.bind(this)
         this.chatKeyDown=this.chatKeyDown.bind(this)        
         this.handleKeyDown=this.handleKeyDown.bind(this)
+       
     }
 
 
@@ -318,14 +320,7 @@ class Chat extends Component {//左侧组件
       }
     }
 
-    componentDidMount(){
-      var s = document.querySelector("#jsonp");
-      s&&s.parentNode.removeChild(s);
-      var script = document.createElement("script");
-      script.id = "jsonp";
-      script.src = 'https://code.jquery.com/jquery-1.10.2.min.js';
-      document.body.appendChild(script);    
-      
+    componentDidMount(){ 
       // socket.on('login', (data) => {
       //       console.log(data)
       // });
