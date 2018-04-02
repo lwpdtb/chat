@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import {BrowserRouter as Router,Route,Link,Redirect,withRouter,Switch,} from 'react-router-dom'//导入的方式跟之前有点变化
-import chat from './component/chat'
+import Chat from './component/chat'
+import Room from './component/room'
+
 
 
 
@@ -24,6 +26,9 @@ const Two = () => (
 
 </ul>
         <h2>我是第二页</h2>
+        <button onClick={() => {
+          fakeAuth.signout(() => window.location.reload())
+        }}>Sign out</button>
     </div>
 )
 
@@ -41,6 +46,8 @@ const List = ({ match }) => (
 <li><Link to="/two">第二页</Link></li>
 <li><Link to="/Lists">一个列表</Link></li>
 <li><Link to="/chat">点我</Link></li>
+<li><Link to="/room">点我</Link></li>
+
 
 </ul>
         <h2>我是一个列表</h2>
@@ -71,15 +78,14 @@ const List = ({ match }) => (
 const AuthExample = () => (
   <Router>
     <div>
-
-    <AuthButton/>
-      
       <Route path="/login" component={Login}/>                  
       <PrivateRoute path="/public" component={Public}/>      
       <PrivateRoute path="/two" component={Two}/>
       <PrivateRoute path="/Lists" component={List}/>
       <PrivateRoute path="/protected" component={Protected}/>
-      <PrivateRoute path="/chat" component={chat}/>
+      <PrivateRoute path="/chat" component={Chat}/>
+      <PrivateRoute path="/room" component={Room}/>
+      
       
       
     </div>
@@ -97,9 +103,11 @@ const fakeAuth = {
     this.isAuthenticated = false
     setTimeout(cb, 100)
   }
+
 }
 
 const AuthButton = withRouter(({ history }) => (
+  // console.log(history),
   fakeAuth.isAuthenticated ? (
     <p>
       Welcome! <button onClick={() => {
@@ -119,11 +127,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
     // console.log(props)
     fakeAuth.isAuthenticated ? (
-      <Component {...props}/>
+      <Component {...props} />
     ) : (
       <Redirect to={{
         pathname: '/login',
-        state: { from: props.location }
+        state: { from: '/public' }
       }}/>
     )
   )}/>
@@ -160,6 +168,12 @@ class Login extends React.Component {
       this.setState({ redirectToReferrer: true })
     })
   }
+  signout = () => {
+    fakeAuth.signout(() => {
+      this.setState({ redirectToReferrer: true })
+    })
+  }
+
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
@@ -170,6 +184,7 @@ class Login extends React.Component {
         <Redirect to={from}/>
       )
     }
+
     
     return (
       <div>
