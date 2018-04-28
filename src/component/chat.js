@@ -2,6 +2,10 @@
 import Chatlist from './chatlist'
 import './chat.css';
 import io from 'socket.io-client';
+import {BrowserRouter as Router,Route,Link,Redirect,withRouter,Switch,} from 'react-router-dom'//导入的方式跟之前有点变化
+
+import {Icon,Button,Badge,Radio } from 'antd';
+
 
 const socket=io('http://:4000'); 
 
@@ -247,7 +251,7 @@ class Chat extends Component {//左侧组件
     constructor(props) {
         super();
         this.state = {
-          nameinput:'',
+          nameinput:props.location.state.item.title,
           chatinput:'',          
           page:2,
           chatlist:[]
@@ -257,7 +261,7 @@ class Chat extends Component {//左侧组件
         this.chatinput=this.chatinput.bind(this)
         this.chatKeyDown=this.chatKeyDown.bind(this)        
         this.handleKeyDown=this.handleKeyDown.bind(this)
-       
+        // console.log(props.location.state.item)
     }
 
 
@@ -341,23 +345,40 @@ class Chat extends Component {//左侧组件
 
     render() {
       // console.log(this.state);
-      let dom=this.state.page==1?
+      let dom=
+      // this.state.page==1?
 
       <li className="chat page">
+      <div className="chatHead">
+      <Radio.Group type="primary">
+      <Link to="/public">
+          <Radio.Button value="large" className="back">
+          <Icon type="left" />
+          <Badge count={2} />
+          </Radio.Button>
+      </Link>
+          <Radio.Button value="default" className="middle">{this.state.nameinput}</Radio.Button>
+          <Radio.Button value="small" className="more"><Icon type="user" /></Radio.Button>
+        </Radio.Group>
+      </div>
       <div className="chatArea">
         <ul className="messages">
         {this.state.chatlist!==''?<Chatlist data={this.state.chatlist}/>:null}
         </ul>
       </div>
+      <div className="inputModle">
       <input className="inputMessage" placeholder="Type here..." onKeyDown={this.chatKeyDown} value={this.state.chatinput} onChange={this.chatinput}/>
-      </li>:
-
-      <li className="login page">
-              <div className="form">
-                <h3 className="title">What's your nickname?</h3>
-                <input className="usernameInput" onKeyDown={this.handleKeyDown} type="text" maxLength="14" value={this.state.nameinput} onChange={this.nameinput}/>
-              </div>
+      <Button type="primary" className="send">发送</Button>
+      </div>
       </li>
+      // :
+
+      // <li className="login page">
+      //         <div className="form">
+      //           <h3 className="title">What's your nickname?</h3>
+      //           <input className="usernameInput" onKeyDown={this.handleKeyDown} type="text" maxLength="14" value={this.state.nameinput} onChange={this.nameinput}/>
+      //         </div>
+      // </li>
         return (
             
             <ul className="pages">

@@ -41,11 +41,11 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    background: url(../img/bike.jpg) no-repeat center center
   }
   
   .page {
-    height: calc(100% - 22px);
-    position: absolute;
+    height: 100%;
     width: 100%;
   }
   
@@ -112,8 +112,8 @@
   /* Messages */
   
   .chatArea {
-    height: 100%;
-    padding-bottom: 60px;
+    height: calc(100% - 92px);
+    /* padding-bottom: 60px; */
   }
   
   .messages {
@@ -135,16 +135,78 @@
   }
   
   /* Input */
-  
-  .inputMessage {
-    border: 10px solid #000;
-    bottom: 0;
-    height: 60px;
-    left: 0;
-    outline: none;
-    padding-left: 10px;
+
+  .inputModle{
+    display: flex;
+    flex-direction: row;
+    bottom: 5px;
     position: absolute;
-    right: 0;
     width: 100%;
   }
+  
+  .inputMessage {
+    height: 33px;
+    left: 0;
+    outline: none;
+    width: 79%;
+    margin: 0 5px 0 5px;
+    border-radius: 8px;
+    border: none;
+  }
+
+  .chat .chatHead .ant-radio-group{
+    width: 100%;
+    color: gray;
+  }
+
+  .chat .chatHead .ant-radio-group .ant-radio-button-wrapper:not(:first-child)::before{
+    display: none
+  }
+
+  .chat .chatHead .ant-radio-group .back{
+    width: 20%;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+
+  
+  .chat .chatHead .ant-radio-group .middle{
+    width: 60%;
+    border-right: none;
+    text-align: center;
+  }
+
+  
+  .chat .chatHead .ant-radio-group .more{
+    width: 20%;
+    text-align: center;
+    border-radius: 0 4px 4px 0;    
+  }
+
+
+  .chat .chatHead .ant-radio-group .ant-radio-button-wrapper-checked{
+    background: #fff;
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+    color: gray;        
+  }
+
+  .chat .chatHead .ant-radio-group .ant-radio-button-wrapper-checked:hover{
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    border-left: none;
+    border-right: none;
+    color: gray;
+    box-shadow: none;
+  }
+
+  .chat .chatHead .ant-radio-group .ant-radio-button-wrapper-checked:active{
+    box-shadow: none;
+  }
+
+  
+
   

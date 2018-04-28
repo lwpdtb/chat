@@ -42,3 +42,71 @@
 .ant-form.login-form .login-form-button{
   width:100%
 }
+
+
+
+
+
+.publicBox{
+  height: 100%;
+  width: 100%;
+}
+.publicBox .content{
+  height: calc(100% - 48px);
+  width: 100%;
+}
+
+
+#root .publicBox .nav .ant-menu-item{
+  width: 25%;
+  padding: 0;
+  text-align: center;
+}
+
+
+.publicBox .content .ant-list-split .ant-list-item {
+  border-bottom: 1px solid rgba(1,1,1,.2);
+  cursor: pointer
+}
+
+.publicBox .content .ant-list-split .ant-list-item:last-child {
+  border-bottom: none;
+}
+
+
+#root>div>form.ant-form.login-form{
+  padding: 1.5rem;
+  width: 100%;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#root>div>form.ant-form.login-form input{
+  font-weight: bold;
+
+}
+
+#root>div>form.ant-form.login-form span,#root>div>form.ant-form.login-form label{
+  
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#root>div>form.ant-form span.login-form-forgot,#root>div>form.ant-form span.login-form-register{
+  color: #1890ff
+}
+
+
+.loginBg{
+  position:absolute;
+  top:0;
+  left:0;
+  background-color:black;
+}
+
+
+.whitespin .ant-spin-dot i{
+  background: white;
+}
