@@ -332,6 +332,10 @@ class Chat extends Component {//左侧组件
       // socket.on('add user', (data) => {
       //       console.log(data)
       // });
+      socket.on('new', (data) => {
+        console.log(data)
+        
+      })
       socket.on('new message', (data) => {
         console.log(data)
         let chatlist=this.state.chatlist

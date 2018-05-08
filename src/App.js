@@ -5,11 +5,17 @@ import { Modal,notification,Form, Icon, Input, Tooltip,Button,Cascader,Row, Col,
 import Chat from './component/chat';
 import Room from './component/room';
 import Resetpassword from './component/resetpassword';
+import PersonalCenter from './component/personalCenter';
+
+
 
 import 'antd/dist/antd.css';
 import './App.css';
 import {ajax} from './fatch';
+
+
 // import {anim} from './canvas';
+
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -165,6 +171,9 @@ class Public extends React.Component {
  
   changeindex(i){
     console.log(i)
+    if(i==4){
+      console.log('now is 4')
+    }
     this.setState({
       current:i
     })
@@ -243,19 +252,7 @@ class Public extends React.Component {
         </List.Item>
       )}
       />;break;
-      case '4':dom=<List
-      itemLayout="horizontal"
-      dataSource={data4}
-      renderItem={item => (
-        <List.Item>
-          <List.Item.Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-            title={<a href="https://ant.design">{item.title}</a>}
-            description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-          />
-        </List.Item>
-      )}
-      />;break;
+      case '4':dom=<PersonalCenter/>;break;
       default:break;
     }
     return (
@@ -409,10 +406,17 @@ class NormalLoginForm extends React.Component {
     this.compareToFirstPassword=this.compareToFirstPassword.bind(this)
     this.validateToNextPassword=this.validateToNextPassword.bind(this)
     this.showModal=this.showModal.bind(this);
+    this.closevisible=this.closevisible.bind(this);
 
     
   }//
+  closevisible(){
+    this.setState({
+      visible:false
+    })
+  }
   showModal(){
+    console.log('ds')
     this.setState({
       visible: true,
     });
@@ -423,7 +427,7 @@ class NormalLoginForm extends React.Component {
   }
   compareToFirstPassword(rule, value, callback){
     const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('_password')) {
       callback('Two passwords is different!');
     } else {
       callback();
@@ -439,7 +443,8 @@ class NormalLoginForm extends React.Component {
 
 
   handleSubmit(e){
-    let that=this;
+    if(!this.state.visible){
+      let that=this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err&&!this.state.loading) {
@@ -451,8 +456,8 @@ class NormalLoginForm extends React.Component {
               }else{
                 const openNotificationWithIcon = (type) => {
                   notification[type]({
-                    message: '无法登陆',
-                    description: '原因：'+data,
+                    message: 'Unable to login',
+                    description: data,
                   });
                 };
                 openNotificationWithIcon('error')
@@ -467,8 +472,8 @@ class NormalLoginForm extends React.Component {
             setTimeout(()=>{
               const openNotificationWithIcon = (type) => {
                 notification[type]({
-                  message: '无法登陆',
-                  description: '原因：'+data,
+                  message: 'error',
+                  description: data,
                 });
               };
               openNotificationWithIcon('error')
@@ -486,6 +491,9 @@ class NormalLoginForm extends React.Component {
         ajax('post','login',data,callback,errorback,befor)
       }
     });
+
+    }
+    
   }
 
 
@@ -494,12 +502,33 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err&&!this.state.loading) {
           let callback=(data)=>{
-           
+            setTimeout(()=>{
+              const openNotificationWithIcon = (type) => {
+                notification[type]({
+                  message: 'Success',
+                  description: 'Have try',
+                });
+              };
+              openNotificationWithIcon('success')
+              this.register(1)
+              this.setState({
+                loading:false
+              })
+            },1000)
           }
-          let errorback=()=>{
-            this.setState({
-              loading:false
-            })
+          let errorback=(data)=>{
+            setTimeout(()=>{
+              const openNotificationWithIcon = (type) => {
+                notification[type]({
+                  message: 'error:',
+                  description: data,
+                });
+              };
+              openNotificationWithIcon('error')
+              this.setState({
+                loading:false
+              })
+            },1000)            
           }
           let befor=()=>{
             this.setState({
@@ -513,21 +542,13 @@ class NormalLoginForm extends React.Component {
   }
 
   register(i){
-    // this.forceUpdate()
-    console.log()
-    document.getElementsByClassName('login-form')[0].reset() 
     this.setState({
-      index:i
+      index:i,
+      visible:false
     })
-
   }
-
-
-  
-
   canvas(e){
-    // console.log(document.getElementById('c'))
-    // console.log(e)
+  
     if(e!==null){
       var w = e.width = window.innerWidth,
       h = e.height = window.innerHeight,
@@ -636,14 +657,14 @@ class NormalLoginForm extends React.Component {
     <canvas id='c' ref={this.canvas} className="loginBg"></canvas>
     <FormItem>
       {getFieldDecorator('userName', {
-        rules: [{ required: true, message: 'Please input your username!' }],
+        rules: [{ required: true, message: 'Please input your username!Max length is 16' ,max:16}],
       })(
         <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
       )}
     </FormItem>
     <FormItem>
       {getFieldDecorator('password', {
-        rules: [{ required: true, message: 'Please input your Password!' }],
+        rules: [{ required: true, message: 'Please input your Password!Max length is 16' ,max:16}],
       })(
         <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
       )}
@@ -656,13 +677,8 @@ class NormalLoginForm extends React.Component {
         <Checkbox >Remember me</Checkbox>
       )}
       
-      <Button type="primary" htmlType="submit" className="login-form-button">
-      
-      {this.state.loading?<Spin className="whitespin">
-      </Spin>:
-      'log in'
-      }
-        
+      <Button loading={this.state.loading} type="primary" htmlType="submit" className="login-form-button" >
+      Log in
       </Button>
       
       <span className="login-form-forgot" onClick={
@@ -671,7 +687,7 @@ class NormalLoginForm extends React.Component {
       }>Forgot password  </span>
       Or <span className="login-form-register" onClick={this.register.bind(this,2)}>register now!</span>
     </FormItem>
-    <Resetpassword visible={this.state.visible}/>
+    <Resetpassword visible={this.state.visible} closevisible={this.closevisible}/>
   </Form>:
   dom=<Form id='2' onSubmit={this.handleSubmit2} className="login-form">
   <canvas id='c' className="loginBg"></canvas>
@@ -682,7 +698,7 @@ class NormalLoginForm extends React.Component {
         >
           {getFieldDecorator('username', {
             rules: [{
-              required: true, message: 'Please input your Username!',whitespace: true
+              required: true, message: 'Please input your Username!Max length is 16',whitespace: true,max:16
             },
             // {
             //   type: 'email', message: 'The input is not valid E-mail!',
@@ -698,7 +714,7 @@ class NormalLoginForm extends React.Component {
         >
           {getFieldDecorator('_password', {
             rules: [{
-              required: true, message: 'Please input your password!',
+              required: true, message: 'Please input your password!Max length is 16',max:16,whitespace: true,
             }, {
               validator: this.validateToNextPassword,
             }],
@@ -712,7 +728,7 @@ class NormalLoginForm extends React.Component {
         >
           {getFieldDecorator('confirm', {
             rules: [{
-              required: true, message: 'Please confirm your password!',
+              required: true, message: 'Please confirm your password!',max:16,whitespace: true,
             }, {
               validator: this.compareToFirstPassword,
             }],
@@ -732,7 +748,7 @@ class NormalLoginForm extends React.Component {
           )}
         >
           {getFieldDecorator('nickname', {
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Please input your nickname!Max length is 16', whitespace: true,max:16 }],
           })(
             <Input />
           )}
@@ -743,7 +759,7 @@ class NormalLoginForm extends React.Component {
           label="Phone Number"
         >
           {getFieldDecorator('phone', {
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: 'Please input your phone number!' ,max:11,whitespace: true,}],
           })(
             <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
           )}
@@ -758,7 +774,7 @@ class NormalLoginForm extends React.Component {
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">Register</Button>
+          <Button loading={this.state.loading} type="primary" htmlType="submit">Register</Button>
         </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button type="primary" onClick={this.register.bind(this,1)}>back</Button>
